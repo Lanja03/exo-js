@@ -1,6 +1,7 @@
 import './style.css'
 import { createBtn } from './utlis/createBtn';
 import { createInput } from './utlis/createInput';
+import { postUser } from './utlis/postUsers';
 //https://reqres.in/api/users?page=1
 //recuperation de donne
 //1fetch api
@@ -9,7 +10,9 @@ import { createInput } from './utlis/createInput';
 //affichage partie front
 //1dom,data feched
 let allUsers = null;
-
+let name = "";
+let email = "";
+let avatar = "";
 const fetchUsers = async () => {
     try {
         const res = await fetch("http://localhost:4400/users")
@@ -26,6 +29,7 @@ function createForm() {
     const app = document.querySelector('#app')
     const inputImage = createInput('file', 'file', 'input-img');
     const inputName = createInput('Name', 'text', 'input-name');
+    const inputAvatar = createInput('avatar', 'text', 'input-avatar');
     const inputEmail = createInput('Email', 'email', 'input-email');
     const profilContainer = document.createElement('div')
     profilContainer.classList.add("profil")
@@ -36,6 +40,7 @@ function createForm() {
 
     infoContainer.appendChild(inputName)
     infoContainer.appendChild(inputEmail)
+    infoContainer.appendChild(inputAvatar)
 
     form.appendChild(profilContainer)
     form.appendChild(infoContainer)
@@ -43,12 +48,25 @@ function createForm() {
     const save = createBtn("save", "submit")
     save.classList.add('save')
     app.appendChild(save)
+    save.addEventListener('click', (e) => {
+        e.preventDefault();
+        postUser({
+            name, email, avatar
+        })
+    })
     const cancel = createBtn("cancel", "button")
     cancel.classList.add('cancel')
     app.appendChild(cancel)
     inputName.addEventListener('input', (e) => {
-        console.log(e);
+        name = e.target.value;
     })
+    inputEmail.addEventListener('input', (e) => {
+        email = e.target.value;
+    })
+    inputAvatar.addEventListener('input', (e) => {
+        avatar = e.target.value
+    })
+
 }
 
 
@@ -66,7 +84,7 @@ const createCard = async () => {
         const avatar = document.createElement('img')
         avatar.setAttribute("src", allUsers[i].avatar)
         const fullName = document.createElement("p")
-        fullName.textContent = `${allUsers[i].username}`
+        fullName.textContent = `${allUsers[i].name}`
         const email = document.createElement("p")
         email.textContent = allUsers[i].email
         card.id = allUsers[i].id;
@@ -143,5 +161,6 @@ const showUserDetails = async (user) => {
     })
 
 }
+postUser(user);
 
 
