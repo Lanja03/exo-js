@@ -1,5 +1,6 @@
 import './style.css'
-
+import { createBtn } from './utlis/createBtn';
+import { createInput } from './utlis/createInput';
 //https://reqres.in/api/users?page=1
 //recuperation de donne
 //1fetch api
@@ -8,7 +9,7 @@ import './style.css'
 //affichage partie front
 //1dom,data feched
 let allUsers = null;
-const appContainer = document.querySelector("#app")
+
 const fetchUsers = async () => {
     try {
         const res = await fetch("http://localhost:4400/users")
@@ -18,6 +19,39 @@ const fetchUsers = async () => {
         console.error(err);
     }
 }
+
+
+function createForm() {
+    const form = document.createElement("form")
+    const app = document.querySelector('#app')
+    const inputImage = createInput('file', 'file', 'input-img');
+    const inputName = createInput('Name', 'text', 'input-name');
+    const inputEmail = createInput('Email', 'email', 'input-email');
+    const profilContainer = document.createElement('div')
+    profilContainer.classList.add("profil")
+    const infoContainer = document.createElement('div')
+    infoContainer.classList.add("info")
+
+    profilContainer.appendChild(inputImage)
+
+    infoContainer.appendChild(inputName)
+    infoContainer.appendChild(inputEmail)
+
+    form.appendChild(profilContainer)
+    form.appendChild(infoContainer)
+    app.appendChild(form)
+    const save = createBtn("save", "submit")
+    save.classList.add('save')
+    app.appendChild(save)
+    const cancel = createBtn("cancel", "button")
+    cancel.classList.add('cancel')
+    app.appendChild(cancel)
+    inputName.addEventListener('input', (e) => {
+        console.log(e);
+    })
+}
+
+
 const createCard = async () => {
     if (!allUsers) {
         await fetchUsers();
@@ -32,7 +66,7 @@ const createCard = async () => {
         const avatar = document.createElement('img')
         avatar.setAttribute("src", allUsers[i].avatar)
         const fullName = document.createElement("p")
-        fullName.textContent = `${allUsers[i].userename}`
+        fullName.textContent = `${allUsers[i].username}`
         const email = document.createElement("p")
         email.textContent = allUsers[i].email
         card.id = allUsers[i].id;
@@ -40,19 +74,21 @@ const createCard = async () => {
         card.appendChild(fullName)
         card.appendChild(email)
         cardContenair.appendChild(card)
-        //console.log(allUsers)
         card.addEventListener('click', async (e) => {
-            //console.log("clicked");
             app.removeChild(cardContenair);
-            //console.log(e.target.id);
             const user = await fetchUser(e.target.id);
             showUserDetails(user)
         });
     }
 
     app.appendChild(cardContenair)
-
-    // console.log(cardContenair);
+    const btn = createBtn("create", 'submit');
+    console.log(btn);
+    app.prepend(btn)
+    btn.addEventListener('click', async (e) => {
+        app.removeChild(cardContenair);
+        createForm()
+    })
 
 }
 createCard();
@@ -64,6 +100,7 @@ const fetchUser = async (idTofetch) => {
         console.error(err);
     }
 }
+
 const showUserDetails = async (user) => {
     const infoUser = document.createElement("div")
     infoUser.classList.add("infoUser")
@@ -104,6 +141,7 @@ const showUserDetails = async (user) => {
         appContainer.removeChild(userCivil);
         createCard();
     })
+
 }
 
 

@@ -1,0 +1,22 @@
+variable,condition,iteration  1
+les reponse de if..esleif..else est toujours booleen (true or false) 0
+
+declaration 
+let usersData=numbers
+reaffectations est les valeurs reaffecter
+usersData=numbers  1
+
+const est les valeurs qui ne change pas
+var permet de declarer un variable 
+let permet de declarer un variable dont la porte 1
+
+nom de fonction,nom d'argument passer a fonction,les instruction qui compose le corps du fonction  0
+
+pour recuperer les donnes de cet end point on utulise le mots cle await 0
+pour creer un tag Html depuis Javascript on utulise l'API DOM  0.25
+text content:qui renvoi un text sur le syntaxe Html  1
+
+innerHTMl:recuperer ou definit les syntaxe Html 0.5
+pour recuperer le balise <body> depuis Javascript on utulise le document.qeurySelector  (query pas qeury)  0.5
+
+5.5 / 10

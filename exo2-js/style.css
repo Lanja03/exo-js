@@ -1,0 +1,15 @@
+.card-user {
+  background-color: aquamarine;
+  cursor: pointer;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+p {
+  font-size: 30px;
+  text-align: center;
+}
