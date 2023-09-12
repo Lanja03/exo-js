@@ -16,8 +16,8 @@ let avatar = "";
 const fetchUsers = async () => {
     try {
         const res = await fetch("http://localhost:4400/users")
-        const userdata = await res.json();
-        allUsers = await userdata;
+        //const userdata = await res.json();
+        return await res.json();
     } catch (err) {
         console.error(err);
     }
@@ -45,18 +45,26 @@ function createForm() {
     form.appendChild(profilContainer)
     form.appendChild(infoContainer)
     app.appendChild(form)
+    const submit = document.createElement("div")
+    submit.classList.add("submit")
+    app.appendChild(submit)
     const save = createBtn("save", "submit")
     save.classList.add('save')
-    app.appendChild(save)
-    save.addEventListener('click', (e) => {
+    submit.appendChild(save)
+    save.addEventListener('click', async (e) => {
         e.preventDefault();
-        postUser({
+        await postUser({
             name, email, avatar
         })
+        app.removeChild(form);
+        name = "";
+        email = "";
+        avatar = "";
+        await createCard();
     })
     const cancel = createBtn("cancel", "button")
     cancel.classList.add('cancel')
-    app.appendChild(cancel)
+    submit.appendChild(cancel)
     inputName.addEventListener('input', (e) => {
         name = e.target.value;
     })
@@ -71,9 +79,10 @@ function createForm() {
 
 
 const createCard = async () => {
-    if (!allUsers) {
-        await fetchUsers();
-    }
+    // if (!allUsers) {
+    //     await fetchUsers();
+    // }
+    allUsers = await fetchUsers();
 
     const app = document.querySelector("#app")
     const cardContenair = document.createElement("div")
@@ -107,7 +116,6 @@ const createCard = async () => {
         app.removeChild(cardContenair);
         createForm()
     })
-
 }
 createCard();
 const fetchUser = async (idTofetch) => {
@@ -157,10 +165,8 @@ const showUserDetails = async (user) => {
     btn.addEventListener('click', () => {
         appContainer.removeChild(infoUser);
         appContainer.removeChild(userCivil);
-        createCard();
+        //createCard();
     })
-
 }
-postUser(user);
 
 
