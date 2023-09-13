@@ -1,52 +1,16 @@
 {
   "users": [
     {
-      "id": 1,
-      "avatar": "https://reqres.in/img/faces/7-image.jpg",
-      "name": "Leanne Graham",
-      "username": "Bret",
-      "email": "Sincere@april.biz",
-      "address": {
-        "street": "Kulas Light",
-        "suite": "Apt. 556",
-        "city": "Gwenborough",
-        "zipcode": "92998-3874",
-        "geo": {
-          "lat": "-37.3159",
-          "lng": "81.1496"
-        }
-      },
-      "phone": "1-770-736-8031 x56442",
-      "website": "hildegard.org",
-      "company": {
-        "name": "Romaguera-Crona",
-        "catchPhrase": "Multi-layered client-server neural-net",
-        "bs": "harness real-time e-markets"
-      }
+      "name": "",
+      "email": "",
+      "avatar": "",
+      "id": 1
     },
     {
-      "id": 2,
-      "avatar": "https://reqres.in/img/faces/8-image.jpg",
       "name": "Ervin Howell",
-      "username": "Antonette",
-      "email": "Shanna@melissa.tv",
-      "address": {
-        "street": "Victor Plains",
-        "suite": "Suite 879",
-        "city": "Wisokyburgh",
-        "zipcode": "90566-7771",
-        "geo": {
-          "lat": "-43.9509",
-          "lng": "-34.4618"
-        }
-      },
-      "phone": "010-692-6593 x09125",
-      "website": "anastasia.net",
-      "company": {
-        "name": "Deckow-Crist",
-        "catchPhrase": "Proactive didactic contingency",
-        "bs": "synergize scalable supply-chains"
-      }
+      "email": "Lanja@melissa.tv",
+      "avatar": "https://reqres.in/img/faces/8-image.jpg",
+      "id": 2
     },
     {
       "id": 3,
@@ -271,8 +235,8 @@
       "id": 19
     },
     {
-      "name": "persi",
-      "email": "name@gmail.com",
+      "name": "njaka",
+      "email": "persi@gmail.com",
       "avatar": "https://img.freepik.com/photos-gratuite/homme-latin-souriant-portrait-agrandi-expression-joyeuse_53876-128963.jpg?size=626&ext=jpg&ga=GA1.2.438072143.1694504401&semt=ais",
       "id": 20
     }

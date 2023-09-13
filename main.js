@@ -2,6 +2,7 @@ import './style.css'
 import { createBtn } from './utlis/createBtn';
 import { createInput } from './utlis/createInput';
 import { postUser } from './utlis/postUsers';
+import { put } from './utlis/updateUser';
 //https://reqres.in/api/users?page=1
 //recuperation de donne
 //1fetch api
@@ -24,7 +25,7 @@ const fetchUsers = async () => {
 }
 
 
-function createForm() {
+function createForm(user) {
     const form = document.createElement("form")
     const app = document.querySelector('#app')
     const inputImage = createInput('file', 'file', 'input-img');
@@ -48,14 +49,18 @@ function createForm() {
     const submit = document.createElement("div")
     submit.classList.add("submit")
     app.appendChild(submit)
-    const save = createBtn("save", "submit")
+    const save = createBtn(user ? "save" : "creat", "submit")
     save.classList.add('save')
     submit.appendChild(save)
     save.addEventListener('click', async (e) => {
         e.preventDefault();
-        await postUser({
-            name, email, avatar
-        })
+        if (user) {
+            await put(user.id, { name, email, avatar })
+        } else {
+            await postUser({
+                name, email, avatar
+            })
+        }
         app.removeChild(form);
         name = "";
         email = "";
@@ -65,6 +70,10 @@ function createForm() {
     const cancel = createBtn("cancel", "button")
     cancel.classList.add('cancel')
     submit.appendChild(cancel)
+    cancel.addEventListener('click', () => {
+        app.removeChild(form);
+        createCard();
+    })
     inputName.addEventListener('input', (e) => {
         name = e.target.value;
     })
@@ -74,7 +83,14 @@ function createForm() {
     inputAvatar.addEventListener('input', (e) => {
         avatar = e.target.value
     })
-
+    if (user) {
+        inputName.value = user.name
+        name = user.name
+        inputEmail.value = user.email
+        email = user.email
+        inputAvatar.value = user.avatar
+        avatar = user.avatar
+    }
 }
 
 
@@ -89,6 +105,19 @@ const createCard = async () => {
     cardContenair.classList.add("card-container")
     for (let i = 0; i < allUsers.length; ++i) {
         const card = document.createElement('div')
+
+        const editIconContainer = document.createElement('div')
+        editIconContainer.id = allUsers[i].id;
+
+        editIconContainer.classList.add('edit-icon-container')
+        editIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+            <path d="M16 5l3 3"></path>
+        </svg>`;
+
+
         card.classList.add("card")
         const avatar = document.createElement('img')
         avatar.setAttribute("src", allUsers[i].avatar)
@@ -100,17 +129,36 @@ const createCard = async () => {
         card.appendChild(avatar)
         card.appendChild(fullName)
         card.appendChild(email)
+        card.appendChild(editIconContainer)
         cardContenair.appendChild(card)
+
         card.addEventListener('click', async (e) => {
             app.removeChild(cardContenair);
             const user = await fetchUser(e.target.id);
             showUserDetails(user)
         });
+
+        card.addEventListener('mouseover', () => {
+            editIconContainer.classList.add('hover');
+        })
+
+        card.addEventListener('mouseleave', () => {
+            editIconContainer.classList.remove('hover')
+        })
+
+        editIconContainer.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            console.log(e.target.id);
+            const user = await fetchUser(e.target.id);
+            console.log(user);
+            app.removeChild(cardContenair);
+            createForm(user);
+        })
     }
 
     app.appendChild(cardContenair)
-    const btn = createBtn("create", 'submit');
-    console.log(btn);
+    const btn = createBtn("create", 'button');
+    //console.log(btn);
     app.prepend(btn)
     btn.addEventListener('click', async (e) => {
         app.removeChild(cardContenair);
@@ -128,6 +176,8 @@ const fetchUser = async (idTofetch) => {
 }
 
 const showUserDetails = async (user) => {
+    const appContainer = document.createElement("div")
+    app.appendChild(appContainer)
     const infoUser = document.createElement("div")
     infoUser.classList.add("infoUser")
     const infoContainer = document.createElement("div")
@@ -165,7 +215,7 @@ const showUserDetails = async (user) => {
     btn.addEventListener('click', () => {
         appContainer.removeChild(infoUser);
         appContainer.removeChild(userCivil);
-        //createCard();
+        createCard();
     })
 }
 
