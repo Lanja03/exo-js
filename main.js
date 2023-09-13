@@ -3,6 +3,7 @@ import { createBtn } from './utlis/createBtn';
 import { createInput } from './utlis/createInput';
 import { postUser } from './utlis/postUsers';
 import { put } from './utlis/updateUser';
+import { deleteUser } from './utlis/delete';
 //https://reqres.in/api/users?page=1
 //recuperation de donne
 //1fetch api
@@ -105,6 +106,7 @@ const createCard = async () => {
     cardContenair.classList.add("card-container")
     for (let i = 0; i < allUsers.length; ++i) {
         const card = document.createElement('div')
+        card.classList.add("card")
 
         const editIconContainer = document.createElement('div')
         editIconContainer.id = allUsers[i].id;
@@ -117,8 +119,20 @@ const createCard = async () => {
             <path d="M16 5l3 3"></path>
         </svg>`;
 
+        const suprime = document.createElement("div")
+        suprime.id = allUsers[i].id;
+        suprime.classList.add('trash')
+        suprime.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 7l16 0"></path>
+        <path d="M10 11l0 6"></path>
+        <path d="M14 11l0 6"></path>
+        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+     </svg>`
 
-        card.classList.add("card")
+
+
         const avatar = document.createElement('img')
         avatar.setAttribute("src", allUsers[i].avatar)
         const fullName = document.createElement("p")
@@ -130,6 +144,8 @@ const createCard = async () => {
         card.appendChild(fullName)
         card.appendChild(email)
         card.appendChild(editIconContainer)
+        card.appendChild(suprime)
+
         cardContenair.appendChild(card)
 
         card.addEventListener('click', async (e) => {
@@ -145,6 +161,13 @@ const createCard = async () => {
         card.addEventListener('mouseleave', () => {
             editIconContainer.classList.remove('hover')
         })
+        card.addEventListener('mouseover', () => {
+            suprime.classList.add('hover');
+        })
+
+        card.addEventListener('mouseleave', () => {
+            suprime.classList.remove('hover')
+        })
 
         editIconContainer.addEventListener('click', async (e) => {
             e.stopPropagation();
@@ -153,6 +176,12 @@ const createCard = async () => {
             console.log(user);
             app.removeChild(cardContenair);
             createForm(user);
+        })
+        suprime.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const deletedUser = await deleteUser(e.target.id);
+            app.removeChild(cardContenair);
+            await createCard();
         })
     }
 

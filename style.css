@@ -101,3 +101,18 @@ form {
 .edit-icon-container svg {
     pointer-events: none;
 }
+
+.trash {
+    display: none;
+}
+
+.trash.hover {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 30px;
+}
+
+.trash svg {
+    pointer-events: none;
+}
